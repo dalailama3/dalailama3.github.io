@@ -1,11 +1,13 @@
 
 
-function Snake() {
-  this.direction = ["N", "E", "S", "W"];
+var Snake = function Snake() {
+  this.direction = "W";
   this.segments = [[3,2], [3,3], [3,4], [3,5], [3,6]];
   this.head = this.segments[0];
-  this.neck = this.segments[1];
-}
+
+};
+
+
 
 
 var moveNorth = function (pos) {
@@ -30,29 +32,45 @@ var moveWest = function (pos) {
 
 
 
-Snake.prototype.move = function (dir) {
+Snake.prototype.move = function () {
+
+  var currentSegments = this.segments;
+  var neck = JSON.stringify(currentSegments[1]);
+  var head = currentSegments[0];
+  console.log(currentSegments);
 
 
-  if (dir === "N" && (this.neck !== moveNorth(this.head))) {
-    this.head = moveNorth(this.head);
-    this.segments.pop();
-    this.segments = [this.head].concat(this.segments);
+  if (this.direction === "N") {
+    if (neck !== JSON.stringify(moveNorth(head))) {
+      this.head = moveNorth(this.head);
+      this.segments.pop();
+      this.segments = [this.head].concat(this.segments);
+    }
   }
-  if (dir === "E" && (this.neck !== moveEast(this.head))) {
-    this.head = moveEast(this.head);
-    this.segments.pop();
-    this.segments = [this.head].concat(this.segments);
+
+  if (this.direction === "E") {
+    if (neck !== JSON.stringify(moveEast(head))) {
+      this.head = moveEast(this.head);
+      this.segments.pop();
+      this.segments = [this.head].concat(this.segments);
+    }
   }
-  if (dir === "S" && (this.neck !== moveSouth(this.head))) {
-    this.head = moveSouth(this.head);
-    this.segments.pop();
-    this.segments = [this.head].concat(this.segments);
+  if (this.direction === "S") {
+    if (neck !== JSON.stringify(moveSouth(head))) {
+      this.head = moveSouth(this.head);
+      this.segments.pop();
+      this.segments = [this.head].concat(this.segments);
+    }
   }
-  if (dir === "W" && (this.neck !== moveWest(this.head))) {
-    this.head = moveWest(this.head);
-    this.segments.pop();
-    this.segments = [this.head].concat(this.segments);
+
+  if (this.direction === "W") {
+    if (neck !== JSON.stringify(moveWest(head))) {
+      this.head = moveWest(this.head);
+      this.segments.pop();
+      this.segments = [this.head].concat(this.segments);
+    }
   }
+
 
 };
 
@@ -117,21 +135,26 @@ var test = new Board();
 
 console.log(test);
 
-
-test.snake.move("N");
-
+test.snake.move();
+test.renderSnake();
+console.log(test);
+test.snake.turn("S");
+test.snake.move();
 test.renderSnake();
 console.log(test);
 
-test.snake.move("W");
+test.snake.turn("E");
+test.snake.move();
 test.renderSnake();
-
 console.log(test);
 
-test.snake.move("N");
+test.snake.turn("W");
+test.snake.move();
 test.renderSnake();
-
 console.log(test);
+
+console.log(test.snake.segments);
+
 
 
 
