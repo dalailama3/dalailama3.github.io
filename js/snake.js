@@ -37,8 +37,6 @@ Snake.prototype.move = function () {
   var currentSegments = this.segments;
   var neck = JSON.stringify(currentSegments[1]);
   var head = currentSegments[0];
-  console.log(currentSegments);
-
 
   if (this.direction === "N") {
     if (neck !== JSON.stringify(moveNorth(head))) {
