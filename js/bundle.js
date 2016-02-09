@@ -70,9 +70,11 @@
 	    SnakeView.prototype.handleKeyEvent(event, board);
 	  });
 	
-	  window.setInterval(this.step.bind(this), 200);
+	
+	  this.loadSnake = window.setInterval(this.step.bind(this), 300);
 	
 	
+	  
 	};
 	
 	
@@ -95,12 +97,19 @@
 	        dir = "E";
 	        break;
 	    }
-	  
+	
 	    board.snake.turn(dir);
 	};
 	
 	SnakeView.prototype.step = function() {
 	    this.board.snake.move();
+	
+	    if (this.board.snake.gameOver) {
+	      clearInterval(this.loadSnake);
+	
+	      this.$el.addClass("game-over");
+	      return;
+	    }
 	    this.board.renderSnake();
 	    this.render();
 	};
@@ -115,6 +124,7 @@
 	  $ul.addClass("group");
 	
 	  var renderGrid = this.board.renderSnake();
+	
 	
 	  for (var rowIdx = 0; rowIdx < len; rowIdx++) {
 	    for (var colIdx = 0; colIdx < len; colIdx++) {
@@ -143,6 +153,7 @@
 	  this.direction = "W";
 	  this.segments = [[3,2], [3,3], [3,4], [3,5], [3,6]];
 	  this.head = this.segments[0];
+	  this.gameOver = false;
 	
 	};
 	
@@ -170,29 +181,42 @@
 	};
 	
 	
+	var outOfRange = function(pos) {
+	  var x = pos[0];
+	  var y = pos[1];
+	
+	  if ((x < 0 || x > 7) || (y < 0 || y > 7)) {
+	    return true;
+	  }
+	};
 	
 	Snake.prototype.move = function () {
 	
+	
 	  if (this.direction === "N") {
 	    this.head = moveNorth(this.head);
+	    if (outOfRange(this.head)) {this.gameOver = true;}
 	    this.segments.pop();
 	    this.segments = [this.head].concat(this.segments);
 	  }
-	  
+	
 	  if (this.direction === "E") {
 	    this.head = moveEast(this.head);
+	    if (outOfRange(this.head)) {this.gameOver = true;}
 	    this.segments.pop();
 	    this.segments = [this.head].concat(this.segments);
 	  }
 	
 	  if (this.direction === "S") {
 	    this.head = moveSouth(this.head);
+	    if (outOfRange(this.head)) {this.gameOver = true;}
 	    this.segments.pop();
 	    this.segments = [this.head].concat(this.segments);
 	  }
 	
 	  if (this.direction === "W") {
 	    this.head = moveWest(this.head);
+	    if (outOfRange(this.head)) {this.gameOver = true;}
 	    this.segments.pop();
 	    this.segments = [this.head].concat(this.segments);
 	  }

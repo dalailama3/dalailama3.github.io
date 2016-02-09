@@ -41,3 +41,17 @@ li.snake-segment {
   color: yellow;
   background: green;
 }
+
+.game-over {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: blue;
+  margin: 0 auto;
+
+}
+
+.game-over:hover {
+
+  
+}

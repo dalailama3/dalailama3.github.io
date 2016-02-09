@@ -4,6 +4,7 @@ var Snake = function Snake() {
   this.direction = "W";
   this.segments = [[3,2], [3,3], [3,4], [3,5], [3,6]];
   this.head = this.segments[0];
+  this.gameOver = false;
 
 };
 
@@ -31,29 +32,42 @@ var moveWest = function (pos) {
 };
 
 
+var outOfRange = function(pos) {
+  var x = pos[0];
+  var y = pos[1];
+
+  if ((x < 0 || x > 7) || (y < 0 || y > 7)) {
+    return true;
+  }
+};
 
 Snake.prototype.move = function () {
 
+
   if (this.direction === "N") {
     this.head = moveNorth(this.head);
+    if (outOfRange(this.head)) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }
-  
+
   if (this.direction === "E") {
     this.head = moveEast(this.head);
+    if (outOfRange(this.head)) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }
 
   if (this.direction === "S") {
     this.head = moveSouth(this.head);
+    if (outOfRange(this.head)) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }
 
   if (this.direction === "W") {
     this.head = moveWest(this.head);
+    if (outOfRange(this.head)) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }

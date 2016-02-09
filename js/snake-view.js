@@ -12,9 +12,11 @@ var SnakeView = window.SnakeView = function SnakeView ($el) {
     SnakeView.prototype.handleKeyEvent(event, board);
   });
 
-  window.setInterval(this.step.bind(this), 200);
+
+  this.loadSnake = window.setInterval(this.step.bind(this), 300);
 
 
+  
 };
 
 
@@ -37,12 +39,19 @@ SnakeView.prototype.handleKeyEvent = function(event, board) {
         dir = "E";
         break;
     }
-  
+
     board.snake.turn(dir);
 };
 
 SnakeView.prototype.step = function() {
     this.board.snake.move();
+
+    if (this.board.snake.gameOver) {
+      clearInterval(this.loadSnake);
+
+      this.$el.addClass("game-over");
+      return;
+    }
     this.board.renderSnake();
     this.render();
 };
@@ -57,6 +66,7 @@ SnakeView.prototype.render = function() {
   $ul.addClass("group");
 
   var renderGrid = this.board.renderSnake();
+
 
   for (var rowIdx = 0; rowIdx < len; rowIdx++) {
     for (var colIdx = 0; colIdx < len; colIdx++) {
