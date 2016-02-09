@@ -12,7 +12,8 @@
 
 
 ul {
-  border: 5px solid black;
+  border: 1px solid black;
+
   list-style: none;
   float: left;
   width: 800px;
@@ -27,14 +28,13 @@ li {
   float: left;
   height: 70px;
   width: 90px;
-  /*border: 1px solid black;*/
+  border: 1px solid black;
 
 
 }
 
 li.snake-segment:before {
   content: "x";
-
 }
 
 li.snake-segment {

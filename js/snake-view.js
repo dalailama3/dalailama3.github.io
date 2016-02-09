@@ -37,8 +37,7 @@ SnakeView.prototype.handleKeyEvent = function(event, board) {
         dir = "E";
         break;
     }
-    console.log(dir);
-
+  
     board.snake.turn(dir);
 };
 

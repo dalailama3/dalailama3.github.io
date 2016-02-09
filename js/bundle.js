@@ -95,8 +95,7 @@
 	        dir = "E";
 	        break;
 	    }
-	    console.log(dir);
-	
+	  
 	    board.snake.turn(dir);
 	};
 	
@@ -174,46 +173,58 @@
 	
 	Snake.prototype.move = function () {
 	
-	  var currentSegments = this.segments;
-	  var neck = JSON.stringify(currentSegments[1]);
-	  var head = currentSegments[0];
-	
 	  if (this.direction === "N") {
-	    if (neck !== JSON.stringify(moveNorth(head))) {
-	      this.head = moveNorth(this.head);
-	      this.segments.pop();
-	      this.segments = [this.head].concat(this.segments);
-	    }
+	    this.head = moveNorth(this.head);
+	    this.segments.pop();
+	    this.segments = [this.head].concat(this.segments);
+	  }
+	  
+	  if (this.direction === "E") {
+	    this.head = moveEast(this.head);
+	    this.segments.pop();
+	    this.segments = [this.head].concat(this.segments);
 	  }
 	
-	  if (this.direction === "E") {
-	    if (neck !== JSON.stringify(moveEast(head))) {
-	      this.head = moveEast(this.head);
-	      this.segments.pop();
-	      this.segments = [this.head].concat(this.segments);
-	    }
-	  }
 	  if (this.direction === "S") {
-	    if (neck !== JSON.stringify(moveSouth(head))) {
-	      this.head = moveSouth(this.head);
-	      this.segments.pop();
-	      this.segments = [this.head].concat(this.segments);
-	    }
+	    this.head = moveSouth(this.head);
+	    this.segments.pop();
+	    this.segments = [this.head].concat(this.segments);
 	  }
 	
 	  if (this.direction === "W") {
-	    if (neck !== JSON.stringify(moveWest(head))) {
-	      this.head = moveWest(this.head);
-	      this.segments.pop();
-	      this.segments = [this.head].concat(this.segments);
-	    }
+	    this.head = moveWest(this.head);
+	    this.segments.pop();
+	    this.segments = [this.head].concat(this.segments);
 	  }
+	};
 	
+	var oppositeDir = function(dir1, dir2) {
+	  if (dir1 === "N" && dir2 === "S") {
+	    return true;
+	  }
+	  else if (dir1 === "S" && dir2 === "N") {
+	    return true;
+	  }
+	  else if (dir1 === "E" && dir2 === "W") {
+	    return true;
+	  }
+	  else if (dir1 === "W" && dir2 === "E") {
+	    return true;
+	  }
+	  else {
+	    return false;
+	  }
 	
 	};
 	
+	// only change direction if not opposite of current direction
 	Snake.prototype.turn = function (newDir) {
-	  this.direction = newDir;
+	
+	  if (oppositeDir(this.direction, newDir)) {
+	    this.direction = this.direction;
+	  } else {
+	    this.direction = newDir;
+	  }
 	
 	};
 	
