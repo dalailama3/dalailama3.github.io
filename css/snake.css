@@ -1,0 +1,43 @@
+.snake {
+
+}
+
+.group:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+
+
+
+ul {
+  border: 5px solid black;
+  list-style: none;
+  float: left;
+  width: 800px;
+  height: 600px;
+
+
+
+  cursor: pointer;
+}
+
+li {
+  float: left;
+  height: 70px;
+  width: 90px;
+  /*border: 1px solid black;*/
+
+
+}
+
+li.snake-segment:before {
+  content: "x";
+
+}
+
+li.snake-segment {
+  color: yellow;
+  background: green;
+}

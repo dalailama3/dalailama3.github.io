@@ -129,32 +129,6 @@ Board.prototype.renderSnake = function() {
 
 
 
-var test = new Board();
-
-console.log(test);
-
-test.snake.move();
-test.renderSnake();
-console.log(test);
-test.snake.turn("S");
-test.snake.move();
-test.renderSnake();
-console.log(test);
-
-test.snake.turn("E");
-test.snake.move();
-test.renderSnake();
-console.log(test);
-
-test.snake.turn("W");
-test.snake.move();
-test.renderSnake();
-console.log(test);
-
-console.log(test.snake.segments);
-
-
-
 
 
 
