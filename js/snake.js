@@ -105,7 +105,7 @@ Snake.prototype.turn = function (newDir) {
   }
   else if (!oppositeDir(this.direction, newDir)) {
     this.direction = newDir;
-  } 
+  }
 };
 
 
@@ -193,7 +193,10 @@ Board.prototype.eatApple = function () {
 
     var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
     this.snakeTwo.segments.push(newSegmentTwo);
+
+    return true;
   }
+
 };
 
 

@@ -70,7 +70,7 @@
 	    SnakeView.prototype.handleKeyEvent(event, board);
 	  });
 	
-	  this.loadSnake = window.setInterval(this.step.bind(this), 100);
+	  this.loadSnake = window.setInterval(this.step.bind(this), 500);
 	
 	};
 	
@@ -114,7 +114,10 @@
 	SnakeView.prototype.step = function() {
 	    this.board.snake.move();
 	    this.board.snakeTwo.move();
-	    this.board.eatApple();
+	    if (this.board.eatApple()) {
+	        var score = $(".score").text();
+	        $("span.score").text(parseInt(score) + 10);
+	    }
 	
 	    if (this.board.snake.gameOver || this.board.snakeTwo.gameOver) {
 	      clearInterval(this.loadSnake);
@@ -298,7 +301,7 @@
 	  }
 	  else if (!oppositeDir(this.direction, newDir)) {
 	    this.direction = newDir;
-	  } 
+	  }
 	};
 	
 	
@@ -386,7 +389,10 @@
 	
 	    var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
 	    this.snakeTwo.segments.push(newSegmentTwo);
+	
+	    return true;
 	  }
+	
 	};
 	
 	
