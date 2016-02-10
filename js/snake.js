@@ -41,33 +41,38 @@ var outOfRange = function(pos) {
   }
 };
 
+
 Snake.prototype.move = function () {
 
 
   if (this.direction === "N") {
     this.head = moveNorth(this.head);
-    if (outOfRange(this.head)) {this.gameOver = true;}
+    var body = this.segments.slice(1);
+    if (outOfRange(this.head) || arrayInArray(this.head, body) === 1) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }
 
   if (this.direction === "E") {
     this.head = moveEast(this.head);
-    if (outOfRange(this.head)) {this.gameOver = true;}
+    var body = this.segments.slice(1);
+    if (outOfRange(this.head) || arrayInArray(this.head, body) === 1) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }
 
   if (this.direction === "S") {
     this.head = moveSouth(this.head);
-    if (outOfRange(this.head)) {this.gameOver = true;}
+    var body = this.segments.slice(1);
+    if (outOfRange(this.head) || arrayInArray(this.head, body) === 1) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }
 
   if (this.direction === "W") {
     this.head = moveWest(this.head);
-    if (outOfRange(this.head)) {this.gameOver = true;}
+    var body = this.segments.slice(1);
+    if (outOfRange(this.head) || arrayInArray(this.head, body) === 1) {this.gameOver = true;}
     this.segments.pop();
     this.segments = [this.head].concat(this.segments);
   }
