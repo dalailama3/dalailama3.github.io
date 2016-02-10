@@ -103,6 +103,8 @@ Snake.prototype.turn = function (newDir) {
 
 };
 
+
+
 function arrayInArray(needle, haystack) {
     var i=0, len = haystack.length, target = JSON.stringify(needle);
     for(; i < len; i++) {
@@ -131,6 +133,15 @@ Board.prototype.randomApple = function () {
   }
   return pos;
 };
+
+Board.prototype.eatApple = function () {
+  var head = JSON.stringify(this.snake.head);
+  var apple = JSON.stringify(this.apple);
+  if (head === apple) {
+    this.apple = this.randomApple();
+  }
+};
+
 
 Board.prototype.makeGrid = function() {
   var grid = [];

@@ -30,7 +30,8 @@ ul {
   height: 800px;
   border: 1px solid black;
   /*background-image: url("http://i.telegraph.co.uk/multimedia/archive/02357/eso-summary_2357457k.jpg");*/
-  background-image: url("http://www.viva-mag.com/uploads/ijchtclpgiqi3yuypnba.jpg");
+  /*background-image: url("http://www.viva-mag.com/uploads/ijchtclpgiqi3yuypnba.jpg");*/ 
+  background-image: url("https://wallpaperscraft.com/image/sea_water_waves_ripples_depth_93831_1920x1080.jpg");
   background-size: cover;
 
 }

@@ -42,6 +42,7 @@ SnakeView.prototype.handleKeyEvent = function(event, board) {
 
 SnakeView.prototype.step = function() {
     this.board.snake.move();
+    this.board.eatApple();
 
     if (this.board.snake.gameOver) {
       clearInterval(this.loadSnake);

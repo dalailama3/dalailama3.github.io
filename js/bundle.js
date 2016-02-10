@@ -100,6 +100,7 @@
 	
 	SnakeView.prototype.step = function() {
 	    this.board.snake.move();
+	    this.board.eatApple();
 	
 	    if (this.board.snake.gameOver) {
 	      clearInterval(this.loadSnake);
@@ -276,6 +277,8 @@
 	
 	};
 	
+	
+	
 	function arrayInArray(needle, haystack) {
 	    var i=0, len = haystack.length, target = JSON.stringify(needle);
 	    for(; i < len; i++) {
@@ -304,6 +307,15 @@
 	  }
 	  return pos;
 	};
+	
+	Board.prototype.eatApple = function () {
+	  var head = JSON.stringify(this.snake.head);
+	  var apple = JSON.stringify(this.apple);
+	  if (head === apple) {
+	    this.apple = this.randomApple();
+	  }
+	};
+	
 	
 	Board.prototype.makeGrid = function() {
 	  var grid = [];
