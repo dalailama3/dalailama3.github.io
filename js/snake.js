@@ -134,11 +134,51 @@ Board.prototype.randomApple = function () {
   return pos;
 };
 
+//add segment to position in opposite direction of snake's current direction
+//if illegal than move clockwise until legal
+var addSegment = function(direction, tailEnd) {
+  var result;
+  switch (direction) {
+    case "N":
+      if (!outOfRange(moveSouth(tailEnd))) {
+        result = moveSouth(tailEnd);
+      } else {
+        result = moveEast(tailEnd);
+      }
+      break;
+    case "S":
+      if (!outOfRange(moveNorth(tailEnd))) {
+        result = moveNorth(tailEnd);
+      } else {
+        result = moveWest(tailEnd);
+      }
+    case "E":
+      if (!outOfRange(moveWest(tailEnd))) {
+        result = moveWest(tailEnd);
+      } else {
+        result = moveNorth(tailEnd);
+      }
+    case "W":
+      if (!outOfRange(moveEast(tailEnd))) {
+        result = moveEast(tailEnd);
+      } else {
+        result = moveSouth(tailEnd);
+      }
+  }
+  return result;
+
+};
+
 Board.prototype.eatApple = function () {
   var head = JSON.stringify(this.snake.head);
   var apple = JSON.stringify(this.apple);
+  var segments = this.snake.segments;
+  var tail = segments[segments.length-1];
+
   if (head === apple) {
     this.apple = this.randomApple();
+    var newSegment = addSegment(this.snake.direction, tail);
+    this.snake.segments.push(newSegment);
   }
 };
 
