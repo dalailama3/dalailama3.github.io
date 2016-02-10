@@ -12,8 +12,7 @@ var SnakeView = window.SnakeView = function SnakeView ($el) {
     SnakeView.prototype.handleKeyEvent(event, board);
   });
 
-  this.loadSnake = window.setInterval(this.step.bind(this), 500);
-
+  this.loadSnake = window.setInterval(this.step.bind(this), 200);
 };
 
 
@@ -65,6 +64,14 @@ SnakeView.prototype.step = function() {
       clearInterval(this.loadSnake);
       var gameOverDiv = $(".game-over");
       gameOverDiv.removeClass("hide");
+      var updatedScore = $(".score").text();
+      $("h1").text("Your Score: " + updatedScore);
+
+      // if (updatedScore > this.highScore) {
+      //   this.highScore = updatedScore;
+      //   $("h2").text("High Score: " + this.highScore);
+      // }
+      //leader board
       $(".game-over button").on("click", function (){
         location.reload();
       });
