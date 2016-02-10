@@ -21,7 +21,7 @@ var SnakeView = window.SnakeView = function SnakeView ($el) {
 SnakeView.prototype.handleKeyEvent = function(event, board) {
 
     var code = event.keyCode;
-    var dir;
+    var dir, dir2;
     switch (code) {
       case 38:
         dir = "N";
@@ -35,16 +35,30 @@ SnakeView.prototype.handleKeyEvent = function(event, board) {
       case 39:
         dir = "E";
         break;
+      case 65:
+        dir2 = "W";
+        break;
+      case 87:
+        dir2 = "N";
+        break;
+      case 68:
+        dir2 = "E";
+        break;
+      case 83:
+        dir2 = "S";
+        break;
     }
 
     board.snake.turn(dir);
+    board.snakeTwo.turn(dir2);
 };
 
 SnakeView.prototype.step = function() {
     this.board.snake.move();
+    this.board.snakeTwo.move();
     this.board.eatApple();
 
-    if (this.board.snake.gameOver) {
+    if (this.board.snake.gameOver || this.board.snakeTwo.gameOver) {
       clearInterval(this.loadSnake);
       var gameOverDiv = $(".game-over");
       gameOverDiv.removeClass("hide");
@@ -75,6 +89,11 @@ SnakeView.prototype.render = function() {
   var tail = JSON.stringify(segments[segments.length-1]);
   var apple = JSON.stringify(this.board.apple);
 
+  var segmentsTwo = this.board.snakeTwo.segments;
+  var headTwo = JSON.stringify(segmentsTwo[0]);
+  var bodyTwo = segmentsTwo.slice(1,-1);
+  var tailTwo = JSON.stringify(segmentsTwo[segmentsTwo.length-1]);
+
 
   //search entire grid, if position is in segments array then add "snake-segment" class
   //
@@ -86,13 +105,13 @@ SnakeView.prototype.render = function() {
       var pos = [row, col];
       var $li = $("<li>");
 
-      if (JSON.stringify(pos) === head) {
+      if (JSON.stringify(pos) === head || JSON.stringify(pos) === headTwo) {
         $li.addClass("snake-head");
       }
-      if (arrayInArray(pos, body) === 1) {
+      if (arrayInArray(pos, body.concat(bodyTwo)) === 1) {
         $li.addClass("snake-body");
       }
-      if (JSON.stringify(pos) === tail) {
+      if (JSON.stringify(pos) === tail || JSON.stringify(pos) === tailTwo) {
         $li.addClass("snake-tail");
       }
 

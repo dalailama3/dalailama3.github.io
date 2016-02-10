@@ -79,7 +79,7 @@
 	SnakeView.prototype.handleKeyEvent = function(event, board) {
 	
 	    var code = event.keyCode;
-	    var dir;
+	    var dir, dir2;
 	    switch (code) {
 	      case 38:
 	        dir = "N";
@@ -93,16 +93,30 @@
 	      case 39:
 	        dir = "E";
 	        break;
+	      case 65:
+	        dir2 = "W";
+	        break;
+	      case 87:
+	        dir2 = "N";
+	        break;
+	      case 68:
+	        dir2 = "E";
+	        break;
+	      case 83:
+	        dir2 = "S";
+	        break;
 	    }
 	
 	    board.snake.turn(dir);
+	    board.snakeTwo.turn(dir2);
 	};
 	
 	SnakeView.prototype.step = function() {
 	    this.board.snake.move();
+	    this.board.snakeTwo.move();
 	    this.board.eatApple();
 	
-	    if (this.board.snake.gameOver) {
+	    if (this.board.snake.gameOver || this.board.snakeTwo.gameOver) {
 	      clearInterval(this.loadSnake);
 	      var gameOverDiv = $(".game-over");
 	      gameOverDiv.removeClass("hide");
@@ -133,6 +147,11 @@
 	  var tail = JSON.stringify(segments[segments.length-1]);
 	  var apple = JSON.stringify(this.board.apple);
 	
+	  var segmentsTwo = this.board.snakeTwo.segments;
+	  var headTwo = JSON.stringify(segmentsTwo[0]);
+	  var bodyTwo = segmentsTwo.slice(1,-1);
+	  var tailTwo = JSON.stringify(segmentsTwo[segmentsTwo.length-1]);
+	
 	
 	  //search entire grid, if position is in segments array then add "snake-segment" class
 	  //
@@ -144,13 +163,13 @@
 	      var pos = [row, col];
 	      var $li = $("<li>");
 	
-	      if (JSON.stringify(pos) === head) {
+	      if (JSON.stringify(pos) === head || JSON.stringify(pos) === headTwo) {
 	        $li.addClass("snake-head");
 	      }
-	      if (arrayInArray(pos, body) === 1) {
+	      if (arrayInArray(pos, body.concat(bodyTwo)) === 1) {
 	        $li.addClass("snake-body");
 	      }
-	      if (JSON.stringify(pos) === tail) {
+	      if (JSON.stringify(pos) === tail || JSON.stringify(pos) === tailTwo) {
 	        $li.addClass("snake-tail");
 	      }
 	
@@ -174,9 +193,9 @@
 
 	
 	
-	var Snake = function Snake() {
-	  this.direction = "S";
-	  this.segments = [[0,0], [0,1], [0,2], [0,3], [0,4]];
+	var Snake = function Snake(segments, direction) {
+	  this.direction = direction;
+	  this.segments = segments;
 	  this.head = this.segments[0];
 	  this.gameOver = false;
 	
@@ -274,12 +293,12 @@
 	// only change direction if not opposite of current direction
 	Snake.prototype.turn = function (newDir) {
 	
-	  if (oppositeDir(this.direction, newDir)) {
+	  if (newDir === undefined) {
 	    this.direction = this.direction;
-	  } else {
-	    this.direction = newDir;
 	  }
-	
+	  else if (!oppositeDir(this.direction, newDir)) {
+	    this.direction = newDir;
+	  } 
 	};
 	
 	
@@ -296,7 +315,8 @@
 	
 	var Board = function Board () {
 	  this.grid = this.makeGrid();
-	  this.snake = new Snake();
+	  this.snake = new Snake([[0,0], [0,1], [0,2], [0,3], [0,4]], "S");
+	  this.snakeTwo = new Snake([[15,4], [15,3], [15,2], [15,1], [15,0]], "E");
 	  this.apple = this.randomApple();
 	};
 	
@@ -354,10 +374,18 @@
 	  var segments = this.snake.segments;
 	  var tail = segments[segments.length-1];
 	
-	  if (head === apple) {
+	  var headTwo = JSON.stringify(this.snakeTwo.head);
+	  var segmentsTwo = this.snakeTwo.segments;
+	  var tailTwo = segmentsTwo[segmentsTwo.length-1];
+	
+	  if (head === apple || headTwo === apple) {
 	    this.apple = this.randomApple();
+	
 	    var newSegment = addSegment(this.snake.direction, tail);
 	    this.snake.segments.push(newSegment);
+	
+	    var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
+	    this.snakeTwo.segments.push(newSegmentTwo);
 	  }
 	};
 	

@@ -1,8 +1,8 @@
 
 
-var Snake = function Snake() {
-  this.direction = "S";
-  this.segments = [[0,0], [0,1], [0,2], [0,3], [0,4]];
+var Snake = function Snake(segments, direction) {
+  this.direction = direction;
+  this.segments = segments;
   this.head = this.segments[0];
   this.gameOver = false;
 
@@ -100,12 +100,12 @@ var oppositeDir = function(dir1, dir2) {
 // only change direction if not opposite of current direction
 Snake.prototype.turn = function (newDir) {
 
-  if (oppositeDir(this.direction, newDir)) {
+  if (newDir === undefined) {
     this.direction = this.direction;
-  } else {
-    this.direction = newDir;
   }
-
+  else if (!oppositeDir(this.direction, newDir)) {
+    this.direction = newDir;
+  } 
 };
 
 
@@ -122,7 +122,8 @@ function arrayInArray(needle, haystack) {
 
 var Board = function Board () {
   this.grid = this.makeGrid();
-  this.snake = new Snake();
+  this.snake = new Snake([[0,0], [0,1], [0,2], [0,3], [0,4]], "S");
+  this.snakeTwo = new Snake([[15,4], [15,3], [15,2], [15,1], [15,0]], "E");
   this.apple = this.randomApple();
 };
 
@@ -180,10 +181,18 @@ Board.prototype.eatApple = function () {
   var segments = this.snake.segments;
   var tail = segments[segments.length-1];
 
-  if (head === apple) {
+  var headTwo = JSON.stringify(this.snakeTwo.head);
+  var segmentsTwo = this.snakeTwo.segments;
+  var tailTwo = segmentsTwo[segmentsTwo.length-1];
+
+  if (head === apple || headTwo === apple) {
     this.apple = this.randomApple();
+
     var newSegment = addSegment(this.snake.direction, tail);
     this.snake.segments.push(newSegment);
+
+    var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
+    this.snakeTwo.segments.push(newSegmentTwo);
   }
 };
 
