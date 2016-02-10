@@ -1,8 +1,9 @@
-html, body, figure, ul, li, div {
+html, body, figure, ul, li, div, h1 {
   margin: 0;
   padding: 0;
   display: block;
   background: transparent;
+  font-size: 18px;
 }
 
 
@@ -21,42 +22,75 @@ html, body, figure, ul, li, div {
 
 
 ul {
+
   margin: 20px 100px;
   list-style: none;
   float: left;
   width: 1200px;
-  height: 600px;
+  height: 800px;
   border: 1px solid black;
-  background: blue;
+  /*background-image: url("http://i.telegraph.co.uk/multimedia/archive/02357/eso-summary_2357457k.jpg");*/
+  background-image: url("http://www.viva-mag.com/uploads/ijchtclpgiqi3yuypnba.jpg");
+  background-size: cover;
 
 }
 
 li {
   float: left;
-  height: 30px;
-  width: 60px;
-  /*border: 1px solid black;*/
+  height: 32px;
+  width: 48px;
+  border-radius: 5px;
 
 
 }
 
-li.snake-segment:before {
-  content: "x";
+
+.apple {
+  background-image: url("https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS-Z0kOh7Qyp1Oc3RYm2191Bc7AZXbF-8Aqav7_d1e-rMc9O1-E");
+  background-size: 48px 32px;
 }
 
-li.snake-segment {
-  color: blue;
-  background: green;
+li.snake-head {
 
+  background-image: url("http://miriadna.com/desctopwalls/images/max/Green-snake-head.jpg");
+  background-size: 48px 32px;
+}
+
+li.snake-body {
+  background-image: url("http://previews.123rf.com/images/pcphotos/pcphotos0702/pcphotos070200132/766348-reptile-skin-background-of-green-snake-Stock-Photo.jpg");
+  /*background-size: 48px 32px;*/
+  background-size: cover;
+}
+
+li.snake-tail {
+  background-image: url("http://st.depositphotos.com/1002941/1269/i/950/depositphotos_12694945-seamless-snake-texture.jpg");
+  background-size: cover;
 }
 
 .game-over {
   position: absolute;
   top: 100px;
   left: 50%;
-  height: 200px;
+  height: 100px;
   width: 200px;
   background: black;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+}
 
+h1 {
+  padding: 10px;
+}
 
+button {
+  display: block;
+  margin: 20px auto;
+  background: #eee;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.hide {
+  display: none;
 }

@@ -14,7 +14,6 @@ var SnakeView = window.SnakeView = function SnakeView ($el) {
 
   this.loadSnake = window.setInterval(this.step.bind(this), 100);
 
-
 };
 
 
@@ -46,15 +45,12 @@ SnakeView.prototype.step = function() {
 
     if (this.board.snake.gameOver) {
       clearInterval(this.loadSnake);
-      var div = $("<div>");
-      div.addClass("game-over");
-      this.$el.parent().append(div);
-      $("div.game-over").on("click", function (){
+      var gameOverDiv = $(".game-over");
+      gameOverDiv.removeClass("hide");
+      $(".game-over button").on("click", function (){
         location.reload();
       });
       return;
-
-
     }
     this.render();
 };
@@ -72,8 +68,12 @@ function arrayInArray(needle, haystack) {
 SnakeView.prototype.render = function() {
   this.$el.empty();
   var len = this.board.grid.length;
-  var newGrid = this.board.grid;
   var segments = this.board.snake.segments;
+  var head = JSON.stringify(segments[0]);
+  var body = segments.slice(1,-1);
+  var tail = JSON.stringify(segments[segments.length-1]);
+  var apple = JSON.stringify(this.board.apple);
+
 
   //search entire grid, if position is in segments array then add "snake-segment" class
   //
@@ -85,40 +85,25 @@ SnakeView.prototype.render = function() {
       var pos = [row, col];
       var $li = $("<li>");
 
-      if (arrayInArray(pos, segments) === 1) {
-        $li.addClass("snake-segment");
+      if (JSON.stringify(pos) === head) {
+        $li.addClass("snake-head");
+      }
+      if (arrayInArray(pos, body) === 1) {
+        $li.addClass("snake-body");
+      }
+      if (JSON.stringify(pos) === tail) {
+        $li.addClass("snake-tail");
+      }
+
+      if (JSON.stringify(pos) === apple) {
+        $li.addClass("apple");
+
       }
       $ul.append($li);
     }
     this.$el.append($ul);
   }
 };
-
-
-
-
-
-// SnakeView.prototype.render = function() {
-//   this.$el.empty();
-//   var len = this.board.grid.length;
-//   var $ul = $("<ul>");
-//   $ul.addClass("group");
-//
-//   var renderGrid = this.board.renderSnake();
-//
-//
-//   for (var rowIdx = 0; rowIdx < len; rowIdx++) {
-//     for (var colIdx = 0; colIdx < len; colIdx++) {
-//       var $li = $("<li>");
-//       if (renderGrid[rowIdx][colIdx] === "x") {
-//         $li.addClass("snake-segment");
-//       }
-//       $ul.append($li);
-//     }
-//   }
-//   this.$el.append($ul);
-//
-// }
 
 
 module.exports = SnakeView;

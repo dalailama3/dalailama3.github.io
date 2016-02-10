@@ -72,7 +72,6 @@
 	
 	  this.loadSnake = window.setInterval(this.step.bind(this), 100);
 	
-	
 	};
 	
 	
@@ -104,15 +103,12 @@
 	
 	    if (this.board.snake.gameOver) {
 	      clearInterval(this.loadSnake);
-	      var div = $("<div>");
-	      div.addClass("game-over");
-	      this.$el.parent().append(div);
-	      $("div.game-over").on("click", function (){
+	      var gameOverDiv = $(".game-over");
+	      gameOverDiv.removeClass("hide");
+	      $(".game-over button").on("click", function (){
 	        location.reload();
 	      });
 	      return;
-	
-	
 	    }
 	    this.render();
 	};
@@ -130,8 +126,12 @@
 	SnakeView.prototype.render = function() {
 	  this.$el.empty();
 	  var len = this.board.grid.length;
-	  var newGrid = this.board.grid;
 	  var segments = this.board.snake.segments;
+	  var head = JSON.stringify(segments[0]);
+	  var body = segments.slice(1,-1);
+	  var tail = JSON.stringify(segments[segments.length-1]);
+	  var apple = JSON.stringify(this.board.apple);
+	
 	
 	  //search entire grid, if position is in segments array then add "snake-segment" class
 	  //
@@ -143,40 +143,25 @@
 	      var pos = [row, col];
 	      var $li = $("<li>");
 	
-	      if (arrayInArray(pos, segments) === 1) {
-	        $li.addClass("snake-segment");
+	      if (JSON.stringify(pos) === head) {
+	        $li.addClass("snake-head");
+	      }
+	      if (arrayInArray(pos, body) === 1) {
+	        $li.addClass("snake-body");
+	      }
+	      if (JSON.stringify(pos) === tail) {
+	        $li.addClass("snake-tail");
+	      }
+	
+	      if (JSON.stringify(pos) === apple) {
+	        $li.addClass("apple");
+	
 	      }
 	      $ul.append($li);
 	    }
 	    this.$el.append($ul);
 	  }
 	};
-	
-	
-	
-	
-	
-	// SnakeView.prototype.render = function() {
-	//   this.$el.empty();
-	//   var len = this.board.grid.length;
-	//   var $ul = $("<ul>");
-	//   $ul.addClass("group");
-	//
-	//   var renderGrid = this.board.renderSnake();
-	//
-	//
-	//   for (var rowIdx = 0; rowIdx < len; rowIdx++) {
-	//     for (var colIdx = 0; colIdx < len; colIdx++) {
-	//       var $li = $("<li>");
-	//       if (renderGrid[rowIdx][colIdx] === "x") {
-	//         $li.addClass("snake-segment");
-	//       }
-	//       $ul.append($li);
-	//     }
-	//   }
-	//   this.$el.append($ul);
-	//
-	// }
 	
 	
 	module.exports = SnakeView;
@@ -196,10 +181,7 @@
 	
 	};
 	
-	var GRIDLENGTH = 20;
-	
-	
-	
+	var GRIDLENGTH = 25;
 	
 	
 	var moveNorth = function (pos) {
@@ -294,12 +276,34 @@
 	
 	};
 	
+	function arrayInArray(needle, haystack) {
+	    var i=0, len = haystack.length, target = JSON.stringify(needle);
+	    for(; i < len; i++) {
+	        if (JSON.stringify(haystack[i]) == target) {
+	            return 1;
+	        }
+	    }
+	    return -1;
+	};
+	
 	var Board = function Board () {
 	  this.grid = this.makeGrid();
 	  this.snake = new Snake();
-	  // this.renderSnake();
+	  this.apple = this.randomApple();
 	};
 	
+	Board.prototype.randomApple = function () {
+	  var x = Math.floor(Math.random() * GRIDLENGTH);
+	  var y = Math.floor(Math.random() * GRIDLENGTH);
+	  var pos = [x, y];
+	
+	  while (arrayInArray(pos, this.snake.segments) === 1) {
+	    x = Math.floor(Math.random() * GRIDLENGTH);
+	    y = Math.floor(Math.random() * GRIDLENGTH);
+	    pos = [x, y];
+	  }
+	  return pos;
+	};
 	
 	Board.prototype.makeGrid = function() {
 	  var grid = [];
@@ -313,43 +317,6 @@
 	  return grid;
 	
 	};
-	
-	// function arrayInArray(needle, haystack) {
-	//     var i=0, len = haystack.length, target = JSON.stringify(needle);
-	//     for(; i < len; i++) {
-	//         if (JSON.stringify(haystack[i]) == target) {
-	//             return 1;
-	//         }
-	//     }
-	//     return -1;
-	// };
-	//
-	// Board.prototype.renderSnake = function() {
-	//   var newGrid = this.grid;
-	//   var segments = this.snake.segments;
-	//
-	//   //search entire grid, if position is in segments array then render it as "x"
-	//   //
-	//   for (var row = 0; row < newGrid.length; row++) {
-	//     for (var col = 0; col < newGrid.length; col++) {
-	//       var pos = [row, col];
-	//
-	//       if (arrayInArray(pos, segments) === 1) {
-	//         newGrid[row][col] = "x";
-	//
-	//       } else {
-	//         newGrid[row][col] = null;
-	//       }
-	//     }
-	//   }
-	//   return newGrid;
-	//
-	// };
-	
-	
-	
-	
-	
 	
 	module.exports = Board;
 

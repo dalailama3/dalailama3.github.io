@@ -8,10 +8,7 @@ var Snake = function Snake() {
 
 };
 
-var GRIDLENGTH = 20;
-
-
-
+var GRIDLENGTH = 25;
 
 
 var moveNorth = function (pos) {
@@ -106,12 +103,34 @@ Snake.prototype.turn = function (newDir) {
 
 };
 
+function arrayInArray(needle, haystack) {
+    var i=0, len = haystack.length, target = JSON.stringify(needle);
+    for(; i < len; i++) {
+        if (JSON.stringify(haystack[i]) == target) {
+            return 1;
+        }
+    }
+    return -1;
+};
+
 var Board = function Board () {
   this.grid = this.makeGrid();
   this.snake = new Snake();
-  // this.renderSnake();
+  this.apple = this.randomApple();
 };
 
+Board.prototype.randomApple = function () {
+  var x = Math.floor(Math.random() * GRIDLENGTH);
+  var y = Math.floor(Math.random() * GRIDLENGTH);
+  var pos = [x, y];
+
+  while (arrayInArray(pos, this.snake.segments) === 1) {
+    x = Math.floor(Math.random() * GRIDLENGTH);
+    y = Math.floor(Math.random() * GRIDLENGTH);
+    pos = [x, y];
+  }
+  return pos;
+};
 
 Board.prototype.makeGrid = function() {
   var grid = [];
@@ -125,42 +144,5 @@ Board.prototype.makeGrid = function() {
   return grid;
 
 };
-
-// function arrayInArray(needle, haystack) {
-//     var i=0, len = haystack.length, target = JSON.stringify(needle);
-//     for(; i < len; i++) {
-//         if (JSON.stringify(haystack[i]) == target) {
-//             return 1;
-//         }
-//     }
-//     return -1;
-// };
-//
-// Board.prototype.renderSnake = function() {
-//   var newGrid = this.grid;
-//   var segments = this.snake.segments;
-//
-//   //search entire grid, if position is in segments array then render it as "x"
-//   //
-//   for (var row = 0; row < newGrid.length; row++) {
-//     for (var col = 0; col < newGrid.length; col++) {
-//       var pos = [row, col];
-//
-//       if (arrayInArray(pos, segments) === 1) {
-//         newGrid[row][col] = "x";
-//
-//       } else {
-//         newGrid[row][col] = null;
-//       }
-//     }
-//   }
-//   return newGrid;
-//
-// };
-
-
-
-
-
 
 module.exports = Board;
