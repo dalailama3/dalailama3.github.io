@@ -70,11 +70,9 @@
 	    SnakeView.prototype.handleKeyEvent(event, board);
 	  });
 	
+	  this.loadSnake = window.setInterval(this.step.bind(this), 100);
 	
-	  this.loadSnake = window.setInterval(this.step.bind(this), 300);
 	
-	
-	  
 	};
 	
 	
@@ -106,38 +104,79 @@
 	
 	    if (this.board.snake.gameOver) {
 	      clearInterval(this.loadSnake);
-	
-	      this.$el.addClass("game-over");
+	      var div = $("<div>");
+	      div.addClass("game-over");
+	      this.$el.parent().append(div);
+	      $("div.game-over").on("click", function (){
+	        location.reload();
+	      });
 	      return;
+	
+	
 	    }
-	    this.board.renderSnake();
 	    this.render();
+	};
+	
+	function arrayInArray(needle, haystack) {
+	    var i=0, len = haystack.length, target = JSON.stringify(needle);
+	    for(; i < len; i++) {
+	        if (JSON.stringify(haystack[i]) == target) {
+	            return 1;
+	        }
+	    }
+	    return -1;
+	};
+	
+	SnakeView.prototype.render = function() {
+	  this.$el.empty();
+	  var len = this.board.grid.length;
+	  var newGrid = this.board.grid;
+	  var segments = this.board.snake.segments;
+	
+	  //search entire grid, if position is in segments array then add "snake-segment" class
+	  //
+	  var $ul = $("<ul>");
+	  $ul.addClass("group");
+	
+	  for (var row = 0; row < len; row++) {
+	    for (var col = 0; col < len; col++) {
+	      var pos = [row, col];
+	      var $li = $("<li>");
+	
+	      if (arrayInArray(pos, segments) === 1) {
+	        $li.addClass("snake-segment");
+	      }
+	      $ul.append($li);
+	    }
+	    this.$el.append($ul);
+	  }
 	};
 	
 	
 	
 	
-	SnakeView.prototype.render = function() {
-	  this.$el.empty();
-	  var len = this.board.grid.length;
-	  var $ul = $("<ul>");
-	  $ul.addClass("group");
 	
-	  var renderGrid = this.board.renderSnake();
-	
-	
-	  for (var rowIdx = 0; rowIdx < len; rowIdx++) {
-	    for (var colIdx = 0; colIdx < len; colIdx++) {
-	      var $li = $("<li>");
-	      if (renderGrid[rowIdx][colIdx] === "x") {
-	        $li.addClass("snake-segment");
-	      }
-	      $ul.append($li);
-	    }
-	  }
-	  this.$el.append($ul);
-	
-	}
+	// SnakeView.prototype.render = function() {
+	//   this.$el.empty();
+	//   var len = this.board.grid.length;
+	//   var $ul = $("<ul>");
+	//   $ul.addClass("group");
+	//
+	//   var renderGrid = this.board.renderSnake();
+	//
+	//
+	//   for (var rowIdx = 0; rowIdx < len; rowIdx++) {
+	//     for (var colIdx = 0; colIdx < len; colIdx++) {
+	//       var $li = $("<li>");
+	//       if (renderGrid[rowIdx][colIdx] === "x") {
+	//         $li.addClass("snake-segment");
+	//       }
+	//       $ul.append($li);
+	//     }
+	//   }
+	//   this.$el.append($ul);
+	//
+	// }
 	
 	
 	module.exports = SnakeView;
@@ -150,12 +189,15 @@
 	
 	
 	var Snake = function Snake() {
-	  this.direction = "W";
-	  this.segments = [[3,2], [3,3], [3,4], [3,5], [3,6]];
+	  this.direction = "S";
+	  this.segments = [[0,0], [0,1], [0,2], [0,3], [0,4]];
 	  this.head = this.segments[0];
 	  this.gameOver = false;
 	
 	};
+	
+	var GRIDLENGTH = 20;
+	
 	
 	
 	
@@ -185,7 +227,7 @@
 	  var x = pos[0];
 	  var y = pos[1];
 	
-	  if ((x < 0 || x > 7) || (y < 0 || y > 7)) {
+	  if ((x < 0 || x > GRIDLENGTH -1) || (y < 0 || y > GRIDLENGTH -1)) {
 	    return true;
 	  }
 	};
@@ -255,14 +297,16 @@
 	var Board = function Board () {
 	  this.grid = this.makeGrid();
 	  this.snake = new Snake();
-	  this.renderSnake();
+	  // this.renderSnake();
 	};
+	
 	
 	Board.prototype.makeGrid = function() {
 	  var grid = [];
-	  for (var i = 0; i < 8; i++) {
+	
+	  for (var i = 0; i < GRIDLENGTH; i++) {
 	    grid.push([]);
-	    for (var j = 0; j < 8; j++) {
+	    for (var j = 0; j < GRIDLENGTH; j++) {
 	      grid[i].push(null);
 	    }
 	  }
@@ -270,37 +314,37 @@
 	
 	};
 	
-	function arrayInArray(needle, haystack) {
-	    var i=0, len=haystack.length, target=JSON.stringify(needle);
-	    for(; i<len; i++) {
-	        if (JSON.stringify(haystack[i]) == target) {
-	            return 1;
-	        }
-	    }
-	    return -1;
-	};
-	
-	Board.prototype.renderSnake = function() {
-	  var newGrid = this.grid;
-	  var segments = this.snake.segments;
-	
-	  //search entire grid, if position is in segments array then render it as "x"
-	  //
-	  for (var row = 0; row < newGrid.length; row++) {
-	    for (var col = 0; col < newGrid.length; col++) {
-	      var pos = [row, col];
-	
-	      if (arrayInArray(pos, segments) === 1) {
-	        newGrid[row][col] = "x";
-	
-	      } else {
-	        newGrid[row][col] = null;
-	      }
-	    }
-	  }
-	  return newGrid;
-	
-	};
+	// function arrayInArray(needle, haystack) {
+	//     var i=0, len = haystack.length, target = JSON.stringify(needle);
+	//     for(; i < len; i++) {
+	//         if (JSON.stringify(haystack[i]) == target) {
+	//             return 1;
+	//         }
+	//     }
+	//     return -1;
+	// };
+	//
+	// Board.prototype.renderSnake = function() {
+	//   var newGrid = this.grid;
+	//   var segments = this.snake.segments;
+	//
+	//   //search entire grid, if position is in segments array then render it as "x"
+	//   //
+	//   for (var row = 0; row < newGrid.length; row++) {
+	//     for (var col = 0; col < newGrid.length; col++) {
+	//       var pos = [row, col];
+	//
+	//       if (arrayInArray(pos, segments) === 1) {
+	//         newGrid[row][col] = "x";
+	//
+	//       } else {
+	//         newGrid[row][col] = null;
+	//       }
+	//     }
+	//   }
+	//   return newGrid;
+	//
+	// };
 	
 	
 	

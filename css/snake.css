@@ -1,4 +1,13 @@
+html, body, figure, ul, li, div {
+  margin: 0;
+  padding: 0;
+  display: block;
+  background: transparent;
+}
+
+
 .snake {
+
 
 }
 
@@ -12,23 +21,21 @@
 
 
 ul {
-  border: 1px solid black;
-
+  margin: 20px 100px;
   list-style: none;
   float: left;
-  width: 800px;
+  width: 1200px;
   height: 600px;
+  border: 1px solid black;
+  background: blue;
 
-
-
-  cursor: pointer;
 }
 
 li {
   float: left;
-  height: 70px;
-  width: 90px;
-  border: 1px solid black;
+  height: 30px;
+  width: 60px;
+  /*border: 1px solid black;*/
 
 
 }
@@ -38,20 +45,18 @@ li.snake-segment:before {
 }
 
 li.snake-segment {
-  color: yellow;
+  color: blue;
   background: green;
+
 }
 
 .game-over {
   position: absolute;
-  height: 100px;
-  width: 100px;
-  background: blue;
-  margin: 0 auto;
+  top: 100px;
+  left: 50%;
+  height: 200px;
+  width: 200px;
+  background: black;
 
-}
 
-.game-over:hover {
-
-  
 }
