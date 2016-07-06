@@ -18,7 +18,7 @@ var SnakeView = window.SnakeView = function SnakeView ($el) {
 
 
 
-SnakeView.prototype.handleKeyEvent = function(event, board) {
+SnakeView.prototype.handleKeyEvent = function (event, board) {
 
     var code = event.keyCode;
     var dir, dir2;
