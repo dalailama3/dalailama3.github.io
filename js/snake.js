@@ -123,7 +123,7 @@ function arrayInArray(needle, haystack) {
 var Board = function Board () {
   this.grid = this.makeGrid();
   this.snake = new Snake([[0,0], [0,1], [0,2], [0,3], [0,4]], "S");
-  this.snakeTwo = new Snake([[15,4], [15,3], [15,2], [15,1], [15,0]], "E");
+  // this.snakeTwo = new Snake([[15,4], [15,3], [15,2], [15,1], [15,0]], "E");
   this.apple = this.randomApple();
 };
 
@@ -181,18 +181,19 @@ Board.prototype.eatApple = function () {
   var segments = this.snake.segments;
   var tail = segments[segments.length-1];
 
-  var headTwo = JSON.stringify(this.snakeTwo.head);
-  var segmentsTwo = this.snakeTwo.segments;
-  var tailTwo = segmentsTwo[segmentsTwo.length-1];
+  // var headTwo = JSON.stringify(this.snakeTwo.head);
+  // var segmentsTwo = this.snakeTwo.segments;
+  // var tailTwo = segmentsTwo[segmentsTwo.length-1];
 
-  if (head === apple || headTwo === apple) {
+  //  || headTwo === apple
+  if (head === apple) {
     this.apple = this.randomApple();
 
     var newSegment = addSegment(this.snake.direction, tail);
     this.snake.segments.push(newSegment);
 
-    var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
-    this.snakeTwo.segments.push(newSegmentTwo);
+    // var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
+    // this.snakeTwo.segments.push(newSegmentTwo);
 
     return true;
   }

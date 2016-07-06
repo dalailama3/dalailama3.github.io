@@ -70,7 +70,7 @@
 	    SnakeView.prototype.handleKeyEvent(event, board);
 	  });
 	
-	  this.loadSnake = window.setInterval(this.step.bind(this), 200);
+	  this.loadSnake = window.setInterval(this.step.bind(this), 100);
 	};
 	
 	
@@ -107,18 +107,20 @@
 	    }
 	
 	    board.snake.turn(dir);
-	    board.snakeTwo.turn(dir2);
+	    // board.snakeTwo.turn(dir2);
 	};
 	
 	SnakeView.prototype.step = function() {
 	    this.board.snake.move();
-	    this.board.snakeTwo.move();
+	    // this.board.snakeTwo.move();
 	    if (this.board.eatApple()) {
 	        var score = $(".score").text();
 	        $("span.score").text(parseInt(score) + 10);
 	    }
 	
-	    if (this.board.snake.gameOver || this.board.snakeTwo.gameOver) {
+	    // || this.board.snakeTwo.gameOver
+	
+	    if (this.board.snake.gameOver) {
 	      clearInterval(this.loadSnake);
 	      var gameOverDiv = $(".game-over");
 	      gameOverDiv.removeClass("hide");
@@ -157,10 +159,10 @@
 	  var tail = JSON.stringify(segments[segments.length-1]);
 	  var apple = JSON.stringify(this.board.apple);
 	
-	  var segmentsTwo = this.board.snakeTwo.segments;
-	  var headTwo = JSON.stringify(segmentsTwo[0]);
-	  var bodyTwo = segmentsTwo.slice(1,-1);
-	  var tailTwo = JSON.stringify(segmentsTwo[segmentsTwo.length-1]);
+	  // var segmentsTwo = this.board.snakeTwo.segments;
+	  // var headTwo = JSON.stringify(segmentsTwo[0]);
+	  // var bodyTwo = segmentsTwo.slice(1,-1);
+	  // var tailTwo = JSON.stringify(segmentsTwo[segmentsTwo.length-1]);
 	
 	
 	  //search entire grid, if position is in segments array then add "snake-segment" class
@@ -173,13 +175,17 @@
 	      var pos = [row, col];
 	      var $li = $("<li>");
 	
-	      if (JSON.stringify(pos) === head || JSON.stringify(pos) === headTwo) {
+	      // || JSON.stringify(pos) === headTwo
+	      if (JSON.stringify(pos) === head) {
 	        $li.addClass("snake-head");
 	      }
-	      if (arrayInArray(pos, body.concat(bodyTwo)) === 1) {
+	
+	      // .concat(bodyTwo)
+	      if (arrayInArray(pos, body) === 1) {
 	        $li.addClass("snake-body");
 	      }
-	      if (JSON.stringify(pos) === tail || JSON.stringify(pos) === tailTwo) {
+	      // || JSON.stringify(pos) === tailTwo
+	      if (JSON.stringify(pos) === tail) {
 	        $li.addClass("snake-tail");
 	      }
 	
@@ -326,7 +332,7 @@
 	var Board = function Board () {
 	  this.grid = this.makeGrid();
 	  this.snake = new Snake([[0,0], [0,1], [0,2], [0,3], [0,4]], "S");
-	  this.snakeTwo = new Snake([[15,4], [15,3], [15,2], [15,1], [15,0]], "E");
+	  // this.snakeTwo = new Snake([[15,4], [15,3], [15,2], [15,1], [15,0]], "E");
 	  this.apple = this.randomApple();
 	};
 	
@@ -384,18 +390,19 @@
 	  var segments = this.snake.segments;
 	  var tail = segments[segments.length-1];
 	
-	  var headTwo = JSON.stringify(this.snakeTwo.head);
-	  var segmentsTwo = this.snakeTwo.segments;
-	  var tailTwo = segmentsTwo[segmentsTwo.length-1];
+	  // var headTwo = JSON.stringify(this.snakeTwo.head);
+	  // var segmentsTwo = this.snakeTwo.segments;
+	  // var tailTwo = segmentsTwo[segmentsTwo.length-1];
 	
-	  if (head === apple || headTwo === apple) {
+	  //  || headTwo === apple
+	  if (head === apple) {
 	    this.apple = this.randomApple();
 	
 	    var newSegment = addSegment(this.snake.direction, tail);
 	    this.snake.segments.push(newSegment);
 	
-	    var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
-	    this.snakeTwo.segments.push(newSegmentTwo);
+	    // var newSegmentTwo = addSegment(this.snakeTwo.direction, tailTwo);
+	    // this.snakeTwo.segments.push(newSegmentTwo);
 	
 	    return true;
 	  }

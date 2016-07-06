@@ -6,8 +6,6 @@ html, body, figure, ul, li, div, h1, h2 {
   font-size: 18px;
 }
 
-
-
 .score {
   position: absolute;
   top: 20px;
@@ -24,16 +22,13 @@ html, body, figure, ul, li, div, h1, h2 {
   clear: both;
 }
 
-
-
-
 ul {
 
   margin: 20px 130px;
   list-style: none;
   float: left;
-  width: 1200px;
-  height: 800px;
+  width: 900px;
+  height: 600px;
   border: 1px solid black;
   /*background-image: url("http://i.telegraph.co.uk/multimedia/archive/02357/eso-summary_2357457k.jpg");*/
   /*background-image: url("http://www.viva-mag.com/uploads/ijchtclpgiqi3yuypnba.jpg");*/
@@ -44,23 +39,23 @@ ul {
 
 li {
   float: left;
-  height: 32px;
-  width: 48px;
+  height: 24px;
+  width: 36px;
   border-radius: 5px;
 
 
 }
 
-
+/*"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS-Z0kOh7Qyp1Oc3RYm2191Bc7AZXbF-8Aqav7_d1e-rMc9O1-E"*/
 .apple {
-  background-image: url("https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS-Z0kOh7Qyp1Oc3RYm2191Bc7AZXbF-8Aqav7_d1e-rMc9O1-E");
-  background-size: 48px 32px;
+  background-image: url("../images/apple.png");
+  background-size: 36px 24px;
 }
 
 li.snake-head {
 
   background-image: url("http://miriadna.com/desctopwalls/images/max/Green-snake-head.jpg");
-  background-size: 48px 32px;
+  background-size: 32px 24px;
 }
 
 li.snake-body {

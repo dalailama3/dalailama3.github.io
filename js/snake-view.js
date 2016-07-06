@@ -3,6 +3,7 @@ var Board = require("./snake.js");
 var SnakeView = window.SnakeView = function SnakeView ($el) {
   this.$el = $el;
   this.board = new Board();
+   // open modal here
 
   this.render();
 
@@ -12,7 +13,7 @@ var SnakeView = window.SnakeView = function SnakeView ($el) {
     SnakeView.prototype.handleKeyEvent(event, board);
   });
 
-  this.loadSnake = window.setInterval(this.step.bind(this), 200);
+  this.loadSnake = window.setInterval(this.step.bind(this), 100);
 };
 
 
@@ -49,18 +50,20 @@ SnakeView.prototype.handleKeyEvent = function(event, board) {
     }
 
     board.snake.turn(dir);
-    board.snakeTwo.turn(dir2);
+    // board.snakeTwo.turn(dir2);
 };
 
 SnakeView.prototype.step = function() {
     this.board.snake.move();
-    this.board.snakeTwo.move();
+    // this.board.snakeTwo.move();
     if (this.board.eatApple()) {
         var score = $(".score").text();
         $("span.score").text(parseInt(score) + 10);
     }
 
-    if (this.board.snake.gameOver || this.board.snakeTwo.gameOver) {
+    // || this.board.snakeTwo.gameOver
+
+    if (this.board.snake.gameOver) {
       clearInterval(this.loadSnake);
       var gameOverDiv = $(".game-over");
       gameOverDiv.removeClass("hide");
@@ -99,10 +102,10 @@ SnakeView.prototype.render = function() {
   var tail = JSON.stringify(segments[segments.length-1]);
   var apple = JSON.stringify(this.board.apple);
 
-  var segmentsTwo = this.board.snakeTwo.segments;
-  var headTwo = JSON.stringify(segmentsTwo[0]);
-  var bodyTwo = segmentsTwo.slice(1,-1);
-  var tailTwo = JSON.stringify(segmentsTwo[segmentsTwo.length-1]);
+  // var segmentsTwo = this.board.snakeTwo.segments;
+  // var headTwo = JSON.stringify(segmentsTwo[0]);
+  // var bodyTwo = segmentsTwo.slice(1,-1);
+  // var tailTwo = JSON.stringify(segmentsTwo[segmentsTwo.length-1]);
 
 
   //search entire grid, if position is in segments array then add "snake-segment" class
@@ -115,13 +118,17 @@ SnakeView.prototype.render = function() {
       var pos = [row, col];
       var $li = $("<li>");
 
-      if (JSON.stringify(pos) === head || JSON.stringify(pos) === headTwo) {
+      // || JSON.stringify(pos) === headTwo
+      if (JSON.stringify(pos) === head) {
         $li.addClass("snake-head");
       }
-      if (arrayInArray(pos, body.concat(bodyTwo)) === 1) {
+
+      // .concat(bodyTwo)
+      if (arrayInArray(pos, body) === 1) {
         $li.addClass("snake-body");
       }
-      if (JSON.stringify(pos) === tail || JSON.stringify(pos) === tailTwo) {
+      // || JSON.stringify(pos) === tailTwo
+      if (JSON.stringify(pos) === tail) {
         $li.addClass("snake-tail");
       }
 

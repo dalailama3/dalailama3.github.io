@@ -1,3 +1,4 @@
+
 var View = require('./snake-view');
 
 $(function () {
