@@ -13,7 +13,7 @@ var SnakeView = window.SnakeView = function SnakeView ($el) {
     SnakeView.prototype.handleKeyEvent(event, board);
   });
 
-  this.loadSnake = window.setInterval(this.step.bind(this), 100);
+  this.loadSnake = window.setInterval(this.step.bind(this), 120);
 };
 
 
